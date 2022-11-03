@@ -33,7 +33,6 @@ class Game {
 
         __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "@"]
        
-
         // The "__" means that __time is a static variable (belongs to the class)
         __time = 0
 
@@ -42,22 +41,23 @@ class Game {
         __sprite = Render.createSprite(image, 0, 0, 1, 1)
     }    
 
+    static movePlayer(x) {
+        __board[__playerPos] = "_"
+        __playerPos = __playerPos + x
+        __board[__playerPos] = "@"
+    }
     // The update method is called once per tick.
     // Gameplay code goes here.
     static update(dt) {
         __time = __time + dt
-         __playerPos = __board.indexOf("@")
+        __playerPos = __board.indexOf("@")
 
         if(Input.getKeyOnce(Input.keyLeft) && __playerPos > 0) {
-            __board[__playerPos] = "_"
-            __playerPos = __playerPos - 1
-             __board[__playerPos] = "@"
+            movePlayer(-1)
         }
 
         if(Input.getKeyOnce(Input.keyRight) && __playerPos < __board.count - 1) {
-            __board[__playerPos] = "_"
-            __playerPos = __playerPos + 1
-             __board[__playerPos] = "@"
+            movePlayer(1)
         }
     }
 
