@@ -30,8 +30,13 @@ class Game {
     static init() {        
         
         System.print("init")
+        __playerChar = "@"
+        __enemyChar = "E"
 
-        __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "@"]
+        __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]
+
+        __board.add(__playerChar)
+        __board[3] = __enemyChar
        
         // The "__" means that __time is a static variable (belongs to the class)
         __time = 0
@@ -46,6 +51,7 @@ class Game {
         __playerPos = __playerPos + x
         __board[__playerPos] = "@"
     }
+
     // The update method is called once per tick.
     // Gameplay code goes here.
     static update(dt) {
