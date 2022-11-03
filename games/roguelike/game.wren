@@ -3,7 +3,7 @@
 System.print("Wren just got compiled to bytecode")
 
 // The xs module is 
-import "xs" for Render, Data
+import "xs" for Input, Render, Data
 
 // The game class it the entry point to your game
 class Game {
@@ -28,7 +28,11 @@ class Game {
     // The init method is called when all system have been created.
     // You can initialize you game specific data here.
     static init() {        
+        
         System.print("init")
+
+        __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "@"]
+       
 
         // The "__" means that __time is a static variable (belongs to the class)
         __time = 0
@@ -42,19 +46,25 @@ class Game {
     // Gameplay code goes here.
     static update(dt) {
         __time = __time + dt
+         __playerPos = __board.indexOf("@")
+
+        if(Input.getKeyOnce(Input.keyLeft) && __playerPos > 0) {
+            __board[__playerPos] = "_"
+            __playerPos = __playerPos - 1
+             __board[__playerPos] = "@"
+        }
+
+        if(Input.getKeyOnce(Input.keyRight) && __playerPos < __board.count - 1) {
+            __board[__playerPos] = "_"
+            __playerPos = __playerPos + 1
+             __board[__playerPos] = "@"
+        }
     }
 
     // The render method is called once per tick, right after update.
     static render() {
-        Render.setColor(
-            (__time * 10 + 1).sin.abs,
-            (__time * 10 + 2).sin.abs,
-            (__time * 10 + 3).sin.abs)
-        Render.shapeText("xs", -100, 100, 20)
-        Render.shapeText("Made with love at Games@BUas", -100, -50, 1)
-        Render.setColor(0.5, 0.5, 0.5)
-        Render.shapeText("Time: %(__time)", -300, -160, 1)
-
-        Render.sprite(__sprite, 180, -152, 0, 0.16, 0.0, 0xFFFFFFFF, 0x00000000, 0)
+        for (i in 0..__board.count - 1) {
+            Render.shapeText(__board[i], (i * 30) - 100, 0, 5)
+        }
     }
 }
