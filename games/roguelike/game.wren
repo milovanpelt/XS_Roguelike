@@ -4,6 +4,7 @@ System.print("Wren just got compiled to bytecode")
 
 // The xs module is 
 import "xs" for Input, Render, Data
+import "random" for Random
 
 // The game class it the entry point to your game
 class Game {
@@ -33,11 +34,11 @@ class Game {
         __playerChar = "@"
         __enemyChar = "E"
 
-        __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]
+        __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]
 
         __board.add(__playerChar)
         __board[3] = __enemyChar
-       
+        
         // The "__" means that __time is a static variable (belongs to the class)
         __time = 0
 
@@ -60,6 +61,7 @@ class Game {
 
         if(Input.getKeyOnce(Input.keyLeft) && __playerPos > 0) {
             movePlayer(-1)
+            
         }
 
         if(Input.getKeyOnce(Input.keyRight) && __playerPos < __board.count - 1) {
@@ -70,7 +72,8 @@ class Game {
     // The render method is called once per tick, right after update.
     static render() {
         for (i in 0..__board.count - 1) {
-            Render.shapeText(__board[i], (i * 30) - 100, 0, 5)
+            Render.setColor(0.5, 0.5, 0.5)
+            Render.shapeText(__board[i], (i * 30) - 280, 0, 5)
         }
     }
 }
