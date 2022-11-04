@@ -4,7 +4,7 @@ System.print("Wren just got compiled to bytecode")
 
 // The xs module is 
 import "xs" for Input, Render, Data
-import "random" for Random
+import "grid" for Grid
 
 // The game class it the entry point to your game
 class Game {
@@ -31,13 +31,6 @@ class Game {
     static init() {        
         
         System.print("init")
-        __playerChar = "@"
-        __enemyChar = "E"
-
-        __board = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]
-
-        __board.add(__playerChar)
-        __board[3] = __enemyChar
         
         // The "__" means that __time is a static variable (belongs to the class)
         __time = 0
@@ -45,35 +38,37 @@ class Game {
         // Variable that exists only in this function 
         var image = Render.loadImage("[games]/shared/images/FMOD_White.png")
         __sprite = Render.createSprite(image, 0, 0, 1, 1)
-    }    
 
-    static movePlayer(x) {
-        __board[__playerPos] = "_"
-        __playerPos = __playerPos + x
-        __board[__playerPos] = "@"
-    }
+        // grid is the new model
+        __grid = Grid.new(9, 9, 0)
+
+        // add player
+        __grid[4, 4] = 1
+
+        // add enemies
+        __grid[0, 0] = 2
+        __grid[5, 6] = 2
+    }    
 
     // The update method is called once per tick.
     // Gameplay code goes here.
     static update(dt) {
         __time = __time + dt
-        __playerPos = __board.indexOf("@")
-
-        if(Input.getKeyOnce(Input.keyLeft) && __playerPos > 0) {
-            movePlayer(-1)
-            
-        }
-
-        if(Input.getKeyOnce(Input.keyRight) && __playerPos < __board.count - 1) {
-            movePlayer(1)
-        }
     }
 
     // The render method is called once per tick, right after update.
     static render() {
-        for (i in 0..__board.count - 1) {
-            Render.setColor(0.5, 0.5, 0.5)
-            Render.shapeText(__board[i], (i * 30) - 280, 0, 5)
+        // render grid
+        Render.setColor(1, 1, 1)
+        for (x in 0...__grid.width){
+            for (y in 0...__grid.height){
+                var val = __grid[x,y]
+                if (val == 0){
+                     Render.circle(x * 10, y * 10, 5, 12)
+                } else{
+                    Render.disk(x * 10, y * 10, 5, 12)
+                }
+            }
         }
     }
 }
