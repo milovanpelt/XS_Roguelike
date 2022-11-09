@@ -25,12 +25,12 @@ class Game {
         
         __time = 0        
         __state = generating // Skip loading
-        __alg = BSP
+        __alg = BSPer
         __genFiber =  Fiber.new { __alg.generate() }
     }   
     
     static update(dt) {  
-        //Gameplay.debugRender()
+        Gameplay.debugRender()
         if(__state == Game.generating) {
             genStep(dt)
         } else {
@@ -38,7 +38,7 @@ class Game {
         }
 
         Entity.update(dt)        
-        //__alg.debugRender()
+        __alg.debugRender()
     }
 
     static genStep(dt) {
@@ -50,7 +50,6 @@ class Game {
                     __time = __genFiber.call()
                 } else {
                     __state = Game.playing
-                    __alg.awesomize()
                 }
             }
         } else {
@@ -61,16 +60,12 @@ class Game {
         }
     }
 
-    static render() {       
-        if(__state == Game.generating) {
-            Level.lightUp()
-            Level.generationRender()
-        } 
+    static render() {        
         Level.render()
         Renderable.render()        
     }
  }
 
 import "create" for Create
-import "generators" for BSP
+import "generators" for Randy, BSPer, RandomWalk
 import "gameplay" for Hero, Tile, Gameplay
