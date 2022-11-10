@@ -62,14 +62,13 @@ class Game {
         var of = 2 * r + 4
         var sx = (__grid.width - 1) / 2 * of
         var sy = (__grid.height - 1) / 2 * of
-        System.print(sx)
+
         for (x in 0...__grid.width){
             for (y in 0...__grid.height){
                 var val = __grid[x,y]
                 if (val == Type.none){
                     Render.setColor(0.8, 0.8, 0.8)
                     Render.circle(x * of - sx, y * of - sy, r, 18)
-                }
                 } else if (val == Type.player){
                     Render.setColor(0.5, 0.5, 0.9)
                     Render.disk(x * of - sx, y * of - sy, r, 18)
@@ -78,11 +77,6 @@ class Game {
                     Render.disk(x * of - sx, y * of - sy, r, 18)
                 }
             }
-        }
-        
-        if (__turn == Turn.dead){
-            Render.setColor(0xFFFFFFFF)
-            Render.shapeText("You dead", -20, -100, 1)
         }
     }
 }
